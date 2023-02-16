@@ -67,6 +67,11 @@
             <artifactId>jgrapht-core</artifactId>
             <version>1.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-basics-runtime</artifactId>
+            <version>0.12.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -90,7 +95,18 @@
                 </executions>
                 <configuration>
                     <packageName>com.example.mappingservice</packageName>
+                    <arguments>
+                        <argument>-Xequals</argument>
+                        <argument>-XhashCode</argument>
+                    </arguments>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics</artifactId>
+                        <version>0.12.0</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
