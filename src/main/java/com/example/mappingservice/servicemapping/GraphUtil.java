@@ -27,12 +27,18 @@ public class GraphUtil {
         List<DefaultWeightedEdge> removedEdges = new ArrayList<>();
         Set<DefaultWeightedEdge> allEdges = gomoryHuCutTree.edgeSet();
 
-        while (removedEdges.size() < k - 1) {
+        int numberOfEdgesRemoved = 0;
+
+        while (removedEdges.size() < k - 1 && allEdges.size() >= numberOfEdgesRemoved) {
             DefaultWeightedEdge minimumWeightEdge = allEdges.stream()
                     .min(Comparator.comparingDouble(gomoryHuCutTree::getEdgeWeight))
-                    .orElseThrow();
-            removedEdges.add(minimumWeightEdge);
-            gomoryHuCutTree.removeEdge(minimumWeightEdge);
+                    .orElse(null);
+
+            if (minimumWeightEdge != null) {
+                removedEdges.add(minimumWeightEdge);
+                gomoryHuCutTree.removeEdge(minimumWeightEdge);
+            }
+            numberOfEdgesRemoved++;
         }
     }
 
