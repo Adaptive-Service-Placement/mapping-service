@@ -19,15 +19,19 @@ public class Mapper {
 
 
     public Mapper(ApplicationSystem applicationSystem, int k) {
+        this.migrationInstruction = new MigrationInstruction();
+
         SimpleWeightedGraph<Service, DefaultWeightedEdge> systemGraph = constructGraphFromSystem(applicationSystem);
         List<Set<Service>> kCutResult = performMinKCutAlgorithm(systemGraph, k);
-        migrationInstruction.getGroups().addAll(kCutResult);
+
+        this.migrationInstruction.getGroups().addAll(kCutResult);
+
         for (Service service : applicationSystem.getServices()) {
             List<Connection> allConnections = applicationSystem.getConnections().stream()
                     .filter(connection -> service.equals(connection.getService1()) || service.equals(connection.getService2()))
                     .collect(Collectors.toList());
 
-            migrationInstruction.getAdjacencyMap().put(service, allConnections);
+            this.migrationInstruction.getAdjacencyMap().put(service, allConnections);
         }
     }
 

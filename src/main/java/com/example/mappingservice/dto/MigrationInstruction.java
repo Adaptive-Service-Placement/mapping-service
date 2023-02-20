@@ -11,14 +11,14 @@ public class MigrationInstruction {
 
     public List<Set<Service>> getGroups() {
         if (groups == null) {
-            return new ArrayList<>();
+            groups = new ArrayList<>();
         }
         return groups;
     }
 
     public Map<Service, List<Connection>> getAdjacencyMap() {
         if (adjacencyMap == null) {
-            return new HashMap<>();
+            adjacencyMap = new HashMap<>();
         }
         return adjacencyMap;
     }
