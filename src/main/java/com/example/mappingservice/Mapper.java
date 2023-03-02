@@ -1,8 +1,5 @@
-package com.example.mappingservice.servicemapping;
+package com.example.mappingservice;
 
-import com.example.mappingservice.ApplicationSystem;
-import com.example.mappingservice.Connection;
-import com.example.mappingservice.Service;
 import com.example.mappingservice.dto.MigrationInstruction;
 import com.example.mappingservice.util.GraphUtil;
 import org.jgrapht.graph.DefaultWeightedEdge;

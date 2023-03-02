@@ -1,8 +1,7 @@
-package com.example.mappingservice.servicemapping;
+package com.example.mappingservice.util;
 
 import com.example.mappingservice.ApplicationSystem;
 import com.example.mappingservice.Service;
-import com.example.mappingservice.util.GraphUtil;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import org.junit.jupiter.api.BeforeEach;
