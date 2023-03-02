@@ -30,8 +30,10 @@ public class GraphUtil {
         // Step 1 Compute a Gomory-Hu tree
         SimpleWeightedGraph<Service, DefaultWeightedEdge> gomoryHuCutTree = computeGusfieldGomoryHuCutTree(graph);
 
-        // Step 2 Choose the k-1 lightest edges in Gomory-Hu tree and return the union of their associated cuts in original graph
+        // Step 2 Remove the k-1 lightest edges in Gomory-Hu tree
         removeLightestEdges(gomoryHuCutTree, k);
+
+        // Step 3 Return connected sets
         return new ConnectivityInspector<>(gomoryHuCutTree).connectedSets();
     }
 
