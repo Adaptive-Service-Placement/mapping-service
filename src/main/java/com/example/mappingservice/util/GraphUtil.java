@@ -1,5 +1,7 @@
-package com.example.mappingservice.servicemapping;
+package com.example.mappingservice.util;
 
+import com.example.mappingservice.ApplicationSystem;
+import com.example.mappingservice.Connection;
 import com.example.mappingservice.Service;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.alg.flow.GusfieldGomoryHuCutTree;
@@ -13,8 +15,18 @@ import java.util.Set;
 
 public class GraphUtil {
 
+    public SimpleWeightedGraph<Service, DefaultWeightedEdge> constructGraphFromSystem(ApplicationSystem applicationSystem) {
+        SimpleWeightedGraph<Service, DefaultWeightedEdge> g = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
+        applicationSystem.getServices().forEach(g::addVertex);
+        for (Connection connection : applicationSystem.getConnections()) {
+            DefaultWeightedEdge edge = g.addEdge(connection.getService1(), connection.getService2());
+            g.setEdgeWeight(edge, connection.getAffinity().doubleValue());
+        }
+        return g;
+    }
+
     // Algorithm Minimum k-Cut
-    public static List<Set<Service>> performMinKCutAlgorithm(SimpleWeightedGraph<Service, DefaultWeightedEdge> graph, int k) {
+    public List<Set<Service>> performMinKCutAlgorithm(SimpleWeightedGraph<Service, DefaultWeightedEdge> graph, int k) {
         // Step 1 Compute a Gomory-Hu tree
         SimpleWeightedGraph<Service, DefaultWeightedEdge> gomoryHuCutTree = computeGusfieldGomoryHuCutTree(graph);
 
@@ -23,7 +35,7 @@ public class GraphUtil {
         return new ConnectivityInspector<>(gomoryHuCutTree).connectedSets();
     }
 
-    private static void removeLightestEdges(SimpleWeightedGraph<Service, DefaultWeightedEdge> gomoryHuCutTree, int k) {
+    private void removeLightestEdges(SimpleWeightedGraph<Service, DefaultWeightedEdge> gomoryHuCutTree, int k) {
         List<DefaultWeightedEdge> removedEdges = new ArrayList<>();
         Set<DefaultWeightedEdge> allEdges = gomoryHuCutTree.edgeSet();
 
@@ -42,7 +54,7 @@ public class GraphUtil {
         }
     }
 
-    private static SimpleWeightedGraph<Service, DefaultWeightedEdge> computeGusfieldGomoryHuCutTree(SimpleWeightedGraph<Service, DefaultWeightedEdge> graph) {
+    private SimpleWeightedGraph<Service, DefaultWeightedEdge> computeGusfieldGomoryHuCutTree(SimpleWeightedGraph<Service, DefaultWeightedEdge> graph) {
         GusfieldGomoryHuCutTree<Service, DefaultWeightedEdge> gomoryHuCutTree = new GusfieldGomoryHuCutTree<>(graph);
         return gomoryHuCutTree.getGomoryHuTree();
     }
