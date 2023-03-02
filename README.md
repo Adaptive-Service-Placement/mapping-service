@@ -1,3 +1,3 @@
-# mapping-service
+# Mapping Service
 
 TODO
