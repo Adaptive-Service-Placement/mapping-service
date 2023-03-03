@@ -10,10 +10,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MessagingConfig {
-    //TODO: eigenen Exchange fuer kommunikation zwischen monitoring-, mapping- und migration service
+
+    public static final String INTERNAL_EXCHANGE = "internal_exchange";
+
     public static final String MAPPING_QUEUE = "monitoring.mapping";
     public static final String MAPPING_ROUTING_KEY = "mapping_routingkey";
-    public static final String EXCHANGE = "bachelor_exchange";
+
+    public static final String EXECUTE_MIGRATION_ROUTING_KEY = "migration_routingkey";
 
     @Bean
     public Queue queue() {
@@ -22,7 +25,7 @@ public class MessagingConfig {
 
     @Bean
     public TopicExchange exchange() {
-        return new TopicExchange(EXCHANGE);
+        return new TopicExchange(INTERNAL_EXCHANGE);
     }
 
     @Bean

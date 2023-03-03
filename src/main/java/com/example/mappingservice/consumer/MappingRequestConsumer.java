@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import static java.math.RoundingMode.HALF_UP;
 
 @Component
-public class Consumer {
+public class MappingRequestConsumer {
 
     @Autowired
     RabbitTemplate template;
@@ -25,8 +25,7 @@ public class Consumer {
         // k = number of VM Instances or physical Servers available, big TODO
         Mapper mapper = new Mapper(applicationSystem, 3);
 
-        // TODO: migration instruction, exchange, and queue the migrationservice listens to
-        template.convertAndSend("EXCHANGE", "ROUTING_KEY", mapper.getMigrationInstruction());
+        template.convertAndSend(MessagingConfig.INTERNAL_EXCHANGE, MessagingConfig.EXECUTE_MIGRATION_ROUTING_KEY, mapper.getMigrationInstruction());
     }
 
     private void setAffinities(ApplicationSystem appSystem) {
