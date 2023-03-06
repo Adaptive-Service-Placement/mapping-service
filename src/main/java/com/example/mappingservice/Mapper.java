@@ -35,7 +35,7 @@ public class Mapper {
                         .filter(connection -> service.equals(connection.getService1()) || service.equals(connection.getService2()))
                         .collect(Collectors.toList());
 
-                this.migrationInstruction.getAdjacencyMap().put(service, allConnections);
+                this.migrationInstruction.getAdjacencyMap().put(service.getId(), allConnections);
             }
         }
 
