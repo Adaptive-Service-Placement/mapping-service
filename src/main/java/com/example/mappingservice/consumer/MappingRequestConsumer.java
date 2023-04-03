@@ -22,8 +22,7 @@ public class MappingRequestConsumer {
     public void handleMappingRequest(ApplicationSystem applicationSystem) {
         setAffinities(applicationSystem);
 
-        // k = number of VM Instances or physical Servers available, big TODO
-        Mapper mapper = new Mapper(applicationSystem, 3);
+        Mapper mapper = new Mapper(applicationSystem, applicationSystem.getNumberOfNodes());
 
         template.convertAndSend(MessagingConfig.INTERNAL_EXCHANGE, MessagingConfig.EXECUTE_MIGRATION_ROUTING_KEY, mapper.getMigrationInstruction());
     }
