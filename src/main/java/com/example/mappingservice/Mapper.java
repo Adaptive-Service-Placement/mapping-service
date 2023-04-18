@@ -26,16 +26,18 @@ public class Mapper {
         if (this.migrationInstruction == null) {
             this.migrationInstruction = new MigrationInstruction();
             SimpleWeightedGraph<Service, DefaultWeightedEdge> systemGraph = graphUtil.constructGraphFromSystem(applicationSystem);
-            List<Set<Service>> kCutResult = graphUtil.performMinKCutAlgorithm(systemGraph, k);
+            if (systemGraph.vertexSet().size() >= 2) {
+                List<Set<Service>> kCutResult = graphUtil.performMinKCutAlgorithm(systemGraph, k);
 
-            this.migrationInstruction.getGroups().addAll(kCutResult);
+                this.migrationInstruction.getGroups().addAll(kCutResult);
 
-            for (Service service : applicationSystem.getServices()) {
-                List<Connection> allConnections = applicationSystem.getConnections().stream()
-                        .filter(connection -> service.equals(connection.getService1()) || service.equals(connection.getService2()))
-                        .collect(Collectors.toList());
+                for (Service service : applicationSystem.getServices()) {
+                    List<Connection> allConnections = applicationSystem.getConnections().stream()
+                            .filter(connection -> service.equals(connection.getService1()) || service.equals(connection.getService2()))
+                            .collect(Collectors.toList());
 
-                this.migrationInstruction.getAdjacencyMap().put(service.getId(), allConnections);
+                    this.migrationInstruction.getAdjacencyMap().put(service.getId(), allConnections);
+                }
             }
         }
 
